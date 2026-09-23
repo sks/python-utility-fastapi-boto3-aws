@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    image: python-utility-fastapi-boto3-aws
+    container_name: python-utility-fastapi-boto3-aws
+    ports:
+      - "8000:8000"
+    labels:
+      # Expose this service at the root of the Shipyard preview URL
+      shipyard.route: /
+    environment:
+      # AWS credentials are passed through from the host environment.
+      # boto3's default credential chain reads these.
+      # Never bake credentials into the image.
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+    restart: unless-stopped
